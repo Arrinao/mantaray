@@ -333,15 +333,11 @@ class IrcWidget(ttk.PanedWindow):
             self.view_selector.item(view.view_id, tags="")
             self.event_generate("<<NotSeenCountChanged>>")
 
+    # <<NotSeenCountChanged>> event is generated when value may change
     def not_seen_count(self) -> int:
-        """Returns the number of channel-likes that are shown in red.
-
-        A <<NotSeenCountChanged>> event is generated when the value may
-        have changed.
-        """
         result = 0
         for view in self.views_by_id.values():
-            if isinstance(view, (ServerView, PMView)):
+            if isinstance(view, (ChannelView, PMView)):
                 tags = self.view_selector.item(view.view_id, "tags")
                 if "new_message" in tags:
                     result += 1
